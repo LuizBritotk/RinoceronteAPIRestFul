@@ -1,0 +1,6 @@
+@Rino.API_HostAddress = http://localhost:5131
+
+GET {{Rino.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
