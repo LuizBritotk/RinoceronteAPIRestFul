@@ -1,6 +1,6 @@
 ﻿namespace Rino.Dominio.DTOs.Usuario
 {
-    public class UsuarioCriarDTO
+    public class UsuarioCriacaoDTO
     {
         public string Nome { get; set; }
         public string Email { get; set; }

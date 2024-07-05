@@ -40,13 +40,5 @@ namespace Rino.API.Controllers
                 return StatusCode(500, new { mensagem = $"Ocorreu um erro ao processar a solicitação: {ex.Message}" });
             }
         }
-
-        //[HttpPost("registrar")]
-        //public async Task<IActionResult> Registrar([FromBody] UsuarioCriarDTO usuarioCadastro)
-        //{
-        //    var usuarioRegistrado = await _usuarioServico.RegistrarUsuario(usuarioCadastro);
-        //
-        //    return CreatedAtAction(nameof(Login), new { id = usuarioRegistrado.Id }, usuarioRegistrado);
-        //}
     }
 }

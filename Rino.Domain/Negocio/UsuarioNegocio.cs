@@ -62,5 +62,11 @@ namespace Rino.Dominio.Negocio
                 return new RespostaPadrao($"Erro ao autenticar usuário: {ex.Message}", true, 500);
             }
         }
+
+        public async Task<RespostaPadrao> Criar(UsuarioCriacaoDTO usuarioDTO) => new RespostaPadrao("", true, 200);
+        public async Task<RespostaPadrao> BuscarPorId(int id) => new RespostaPadrao("", true, 200);
+        public async Task<RespostaPadrao> BuscarTodos() => new RespostaPadrao("", true, 200);
+        public async Task<RespostaPadrao> Atualizar(int id, UsuarioAtualizarDTO usuarioDTO) => new RespostaPadrao("", true, 200);
+        public async Task<RespostaPadrao> Deletar(int id) => new RespostaPadrao("", true, 200);
     }
 }
