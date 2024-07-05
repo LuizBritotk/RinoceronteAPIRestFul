@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 using Rino.Dominio.DTOs.Usuario;
 using Rino.Dominio.Interfaces.Negocio;
@@ -13,25 +14,38 @@ namespace Rino.API.Controllers
 
         public AutenticacaoController(IUsuarioNegocio usuarioServico)
         {
-            _usuarioServico = usuarioServico;
+            _usuarioServico = usuarioServico ?? throw new ArgumentNullException(nameof(usuarioServico));
         }
 
         [HttpPost("login")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public async Task<IActionResult> Login([FromBody] UsuarioLoginDTO credenciais)
         {
-            var usuarioAutenticado = await _usuarioServico.AutenticarUsuario(credenciais);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            if (usuarioAutenticado is null)
-                return Unauthorized(new { mensagem = "Credenciais inválidas." });
+            try
+            {
+                var usuarioAutenticado = await _usuarioServico.AutenticarUsuario(credenciais);
 
-            return Ok(usuarioAutenticado);
+                if (usuarioAutenticado is null)
+                    return Unauthorized(new { mensagem = "Credenciais inválidas." });
+
+                return Ok(usuarioAutenticado);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { mensagem = $"Ocorreu um erro ao processar a solicitação: {ex.Message}" });
+            }
         }
 
         //[HttpPost("registrar")]
         //public async Task<IActionResult> Registrar([FromBody] UsuarioCriarDTO usuarioCadastro)
         //{
         //    var usuarioRegistrado = await _usuarioServico.RegistrarUsuario(usuarioCadastro);
-
+        //
         //    return CreatedAtAction(nameof(Login), new { id = usuarioRegistrado.Id }, usuarioRegistrado);
         //}
     }
